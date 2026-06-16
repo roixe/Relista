@@ -50,7 +50,7 @@
   .sub{font-size:18px;color:var(--ink-soft);max-width:30em;margin-bottom:30px}
 
   /* form */
-  .form{display:flex;gap:10px;max-width:440px;flex-wrap:wrap}
+  .form{display:flex;gap:10px;max-width:480px;flex-wrap:wrap}
   .form input[type=email]{flex:1;min-width:200px;font-family:var(--body);font-size:15px;padding:14px 16px;border:1.5px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);transition:border-color .15s}
   .form input[type=email]:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft)}
   .btn{font-family:var(--body);font-weight:600;font-size:15px;padding:14px 22px;border:none;border-radius:11px;background:var(--ink);color:#fff;cursor:pointer;transition:transform .08s,background .15s;white-space:nowrap}
@@ -112,8 +112,9 @@
   .final .sec-eyebrow{color:#7fe0d3}
   .final h2{color:#fff}
   .final .lead{color:#b9c0d4;margin:0 auto 14px;max-width:34em}
-  .price{font-family:var(--display);font-weight:800;font-size:30px;margin:22px 0 6px;letter-spacing:-.02em}
-  .price small{font-size:16px;font-weight:500;color:#b9c0d4}
+  .price{font-family:var(--display);font-weight:800;font-size:34px;margin:22px 0 6px;letter-spacing:-.02em}
+  .price s{color:#8b91a8;font-weight:500;font-size:24px;margin-right:6px}
+  .price small{display:block;font-size:15px;font-weight:500;color:#b9c0d4;margin-top:8px;letter-spacing:0}
   .perk{display:inline-block;font-size:14px;font-weight:600;color:#08231f;background:#7fe0d3;padding:7px 15px;border-radius:100px;margin-bottom:30px}
   .final .form{margin:0 auto;justify-content:center}
   .final input[type=email]{background:#20243b;border-color:#2e3350;color:#fff}
@@ -145,7 +146,7 @@
 <div class="wrap">
   <nav>
     <div class="logo"><span class="mark"></span>Relista</div>
-    <a class="nav-cta" href="#rejoindre">Early access</a>
+    <a class="nav-cta" href="#rejoindre">Founding offer</a>
   </nav>
 
   <header class="hero">
@@ -154,9 +155,9 @@
       <h1 class="fade d1">When an item sells, it disappears <span class="hl">everywhere</span>. Automatically.</h1>
       <p class="sub fade d2">The crosslister built for Europe. List once, sell everywhere — and never double-sell the same item again.</p>
       <form class="form fade d3" id="waitlist-form-top" novalidate>
-        <input type="email" name="email" placeholder="you@email.com" required aria-label="Adresse email" />
-        <button class="btn" type="submit">Get early access</button>
-        <p class="form-note">In development. Sign up to be notified at launch and help shape the features.</p>
+        <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address" />
+        <button class="btn" type="submit">Reserve my founding spot</button>
+        <p class="form-note">Founding price: €4.50/mo, locked for life. No charge today — you're only billed when we launch, and you can cancel anytime.</p>
         <p class="form-msg" data-msg role="status"></p>
       </form>
     </div>
@@ -232,15 +233,15 @@
 
 <div class="wrap">
   <div class="final" id="rejoindre">
-    <div class="sec-eyebrow">Early access</div>
-    <h2>Be one of the first.</h2>
-    <p class="lead">Relista is being built right now. Sign up to try it early and shape what we build.</p>
-    <div class="price">~€9/month <small>all-in, no hidden add-ons</small></div>
-    <span class="perk">First 50 sign-ups: −50% for life</span>
+    <div class="sec-eyebrow">Founding offer</div>
+    <h2>Lock the founding price.</h2>
+    <p class="lead">Relista is being built right now. Reserve your spot to lock the founding price — you're only billed when we launch, and you can cancel anytime before that.</p>
+    <div class="price"><s>€9</s> €4.50<small>per month · founding price, locked for life</small></div>
+    <span class="perk">First 50 reservations only</span>
     <form class="form" id="waitlist-form-bottom" novalidate>
-      <input type="email" name="email" placeholder="you@email.com" required aria-label="Adresse email" />
-      <button class="btn" type="submit">Join the waitlist</button>
-      <p class="form-note">No spam. Just a heads-up when it's ready.</p>
+      <input type="email" name="email" placeholder="you@email.com" required aria-label="Email address" />
+      <button class="btn" type="submit">Reserve my founding spot — €4.50/mo</button>
+      <p class="form-note">No charge today. We'll email you before launch — cancel anytime.</p>
       <p class="form-msg" data-msg role="status"></p>
     </form>
   </div>
@@ -254,7 +255,6 @@
 </footer>
 
 <script>
-  // ---- PASTE YOUR FORMSPREE ENDPOINT HERE (replace the whole string) ----
   const ENDPOINT = "https://formspree.io/f/mykavydz";
 
   function wire(formId){
@@ -270,10 +270,6 @@
         msg.textContent = "Enter a valid email address.";
         msg.className = 'form-msg err show'; return;
       }
-      if(ENDPOINT.includes("PASTE_YOUR")){
-        msg.textContent = "⚠️ Form endpoint not configured (see instructions).";
-        msg.className = 'form-msg err show'; return;
-      }
       const btn = form.querySelector('button');
       const label = btn.textContent; btn.textContent = "…"; btn.disabled = true;
       try{
@@ -284,13 +280,13 @@
         });
         if(res.ok){
           form.querySelectorAll('input,button').forEach(el=>el.style.display='none');
-          msg.textContent = "Thanks! You’re on the list — we’ll let you know at launch. 🎉";
+          msg.textContent = "Spot reserved 🎉 You've locked the founding price — no charge until launch, cancel anytime. We'll email you first.";
           msg.className = 'form-msg ok show';
         }else{
           throw new Error('bad status');
         }
       }catch(err){
-        msg.textContent = "Oops, that didn’t go through. Try again in a moment.";
+        msg.textContent = "Oops, that didn't go through. Try again in a moment.";
         msg.className = 'form-msg err show';
         btn.textContent = label; btn.disabled = false;
       }
